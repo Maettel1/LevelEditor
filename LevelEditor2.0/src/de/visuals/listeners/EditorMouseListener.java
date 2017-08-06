@@ -1,10 +1,11 @@
-package de.listeners;
+package de.visuals.listeners;
 
 import java.awt.Cursor;
 import java.awt.event.MouseEvent;
 
 import javax.swing.event.MouseInputListener;
 
+import de.framework.Options;
 import de.visuals.EditorView;
 
 public class EditorMouseListener implements MouseInputListener{
@@ -70,7 +71,9 @@ public class EditorMouseListener implements MouseInputListener{
 			editor.addOffset((arg0.getX()-x)/editor.getScale(), (arg0.getY()-y)/editor.getScale());
 			x = arg0.getX();
 			y = arg0.getY();
-			//editor.repaint();
+			
+			if(Options.animation == false)
+				editor.repaint();
 		}
 		
 	}

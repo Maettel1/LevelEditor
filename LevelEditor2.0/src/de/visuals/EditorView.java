@@ -10,9 +10,10 @@ import java.text.NumberFormat;
 import javax.swing.JPanel;
 
 import de.framework.Animator;
-import de.listeners.EditorKeyListener;
-import de.listeners.EditorMouseListener;
-import de.listeners.EditorMouseWheelListener;
+import de.framework.Options;
+import de.visuals.listeners.EditorKeyListener;
+import de.visuals.listeners.EditorMouseListener;
+import de.visuals.listeners.EditorMouseWheelListener;
 
 public class EditorView extends JPanel{
 
@@ -45,8 +46,10 @@ public class EditorView extends JPanel{
 		
 		System.out.println(toString());
 		
-		ani = new Animator(this);
-		ani.start();
+		if(Options.animation == true){
+			ani = new Animator(this);
+			ani.start();
+		}
 		
 		this.setDoubleBuffered(true);
 	}
