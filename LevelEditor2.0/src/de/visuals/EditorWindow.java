@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -32,15 +34,29 @@ public class EditorWindow extends JFrame{
 		EditorToolBar tb = new EditorToolBar();
 		add(tb, BorderLayout.PAGE_START);
 		
-		EditorView editor = new EditorView(getSize());
-		add(editor, BorderLayout.CENTER);
+		//splitpane
+		JSplitPane splitpane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+		add(splitpane,BorderLayout.CENTER);
+		splitpane.setPreferredSize(getSize());
+		splitpane.setResizeWeight(1);
+		
+		//left component
+		EditorView editor = new EditorView();
+		splitpane.setLeftComponent(editor);
+		
+		//right component
+		TileSelector tiles = new TileSelector();
+		
+		JScrollPane scrollPane = new JScrollPane(tiles);
+		scrollPane.setPreferredSize(tiles.getPreferredSize());
+		scrollPane.setMinimumSize(tiles.getMinimumSize());
+		splitpane.setRightComponent(scrollPane);
 		
 		setJMenuBar(new EditorMenuBar());
 		
-		setMinimumSize(new Dimension(500,300));
+		setMinimumSize(new Dimension(300,200));
 
 		setVisible(true);
-		
 		
 	}
 }

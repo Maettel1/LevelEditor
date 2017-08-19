@@ -37,7 +37,7 @@ class ZoomThread implements Runnable {
 	@Override
 	public void run() {
 
-		int zoomSteps = 5;
+		int zoomSteps = 10;
 		int sleepTime = 5;
 		
 		

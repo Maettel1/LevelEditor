@@ -1,7 +1,6 @@
 package de.visuals;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
@@ -27,10 +26,7 @@ public class EditorView extends JPanel{
 	private EditorCamera cam;
 	private Animator ani;
 
-	public EditorView(Dimension size){
-		setSize(size);
-		setMinimumSize(size);
-		setPreferredSize(size);
+	public EditorView(){
 		setFocusable(true);
 		
 		cam = new EditorCamera();
