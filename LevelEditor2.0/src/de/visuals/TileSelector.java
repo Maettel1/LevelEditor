@@ -24,7 +24,7 @@ public class TileSelector extends JPanel{
 		
 		this.setPreferredSize(new Dimension(Options.tileSize*4,Options.tileSize*10));
 		this.setMaximumSize(new Dimension(Options.tileSize*4,Options.tileSize*10));
-		this.setMinimumSize(new Dimension(Options.tileSize*4,Options.tileSize*10));
+		this.setMinimumSize(new Dimension(Options.tileSize*4+2,Options.tileSize*10));
 		tiles = new ArrayList<Tile>();
 		
 		Tile testwall = new Tile(Options.tileSize, Options.tileSize, "SpritesheetWall.png");

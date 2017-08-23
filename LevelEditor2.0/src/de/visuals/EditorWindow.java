@@ -2,10 +2,14 @@ package de.visuals;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JToolBar;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -31,7 +35,13 @@ public class EditorWindow extends JFrame{
 			e.printStackTrace();
 		}
 		
-		EditorToolBar tb = new EditorToolBar();
+		//Toolbar
+		JToolBar tb = new JToolBar();
+		tb.setFloatable(false);
+		tb.setRollover(false);
+		
+		
+		tb.add(new JButton("TileMode"));
 		add(tb, BorderLayout.PAGE_START);
 		
 		//splitpane
@@ -45,11 +55,19 @@ public class EditorWindow extends JFrame{
 		splitpane.setLeftComponent(editor);
 		
 		//right component
-		TileSelector tiles = new TileSelector();
+		JPanel rightPanel = new JPanel();
+		FlowLayout bl = (FlowLayout) rightPanel.getLayout();
+		bl.setHgap(0);
+		bl.setVgap(0);
 		
-		JScrollPane scrollPane = new JScrollPane(tiles);
+		TileSelector tiles = new TileSelector();
+		DnDPanel dndtiles = new DnDPanel(tiles);
+		
+		rightPanel.add(dndtiles);
+		
+		JScrollPane scrollPane = new JScrollPane(rightPanel);
 		scrollPane.setPreferredSize(tiles.getPreferredSize());
-		scrollPane.setMinimumSize(tiles.getMinimumSize());
+		
 		splitpane.setRightComponent(scrollPane);
 		
 		setJMenuBar(new EditorMenuBar());
