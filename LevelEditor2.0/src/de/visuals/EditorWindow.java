@@ -102,7 +102,9 @@ public class EditorWindow extends JFrame {
 					+ format.format((freeMemory + (maxMemory - allocatedMemory)) / 1024) + "KB"
 					+ "</p></html>");
 
-					tileAmount.setText("Tiles: " + editor.getTileSize());
+					tileAmount.setText("Rooms: " + editor.getRoomAmount() + " Tiles: " + editor.getTileAmount() 
+					+ " Scale: " + ((double)Math.round(editor.getScale()*10)/10));
+					//(double)(Math.round(editor.getScale()*10)/10)
 					try {
 						Thread.sleep(100);
 					} catch (InterruptedException e) {

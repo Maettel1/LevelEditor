@@ -45,10 +45,10 @@ public class EditorMouseListener implements MouseInputListener{
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-		double y1 = arg0.getY()/editor.getScale() - editor.getYOffset();
-		double x1 = arg0.getX()/editor.getScale() - editor.getXOffset();	
+		//double y1 = arg0.getY()/editor.getScale() - editor.getYOffset();
+		//double x1 = arg0.getX()/editor.getScale() - editor.getXOffset();	
 		
-		System.out.println(x1 + " " + y1);
+		//System.out.println(x1 + " " + y1);
 		
 		if(arg0.getButton() == MouseEvent.BUTTON2){
 			drag = true;

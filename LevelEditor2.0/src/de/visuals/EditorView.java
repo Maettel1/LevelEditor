@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 
 import de.framework.Animator;
 import de.framework.Options;
+import de.framework.Room;
 import de.framework.Tile;
 import de.visuals.listeners.EditorKeyListener;
 import de.visuals.listeners.EditorMouseListener;
@@ -26,7 +27,7 @@ public class EditorView extends JPanel{
 	private EditorCamera cam;
 	private Animator ani;
 	private int placeState = 1;
-	private ArrayList<Tile> tileList;
+	private ArrayList<Room> roomList;
 
 	public int getPlaceState() {
 		return placeState;
@@ -59,7 +60,9 @@ public class EditorView extends JPanel{
 		
 		this.setDoubleBuffered(true);
 		
-		tileList = new ArrayList<Tile>();
+		roomList = new ArrayList<Room>();
+		
+		addRoom(new Room(0,0));
 	}
 	
 	protected void paintComponent(Graphics g){
@@ -72,14 +75,9 @@ public class EditorView extends JPanel{
 		cam.scale(g2d, scale);
 		cam.translate(g2d, offsetx, offsety);
 		
-		g2d.setColor(Color.WHITE);
-		g2d.drawRect(0, 0, getWidth(), getHeight());
-		g2d.setColor(Color.red);
-		g2d.fillOval(10, 10, 100, 100);
-		
 		@SuppressWarnings("unchecked")
-		ArrayList<Tile> tileListCopy = (ArrayList<Tile>) tileList.clone();
-		for(Tile i : tileListCopy)
+		ArrayList<Room> roomListCopy = (ArrayList<Room>) roomList.clone();
+		for(Room i : roomListCopy)
 			i.draw(g);
 		
 		paintChildren(g2d);
@@ -95,8 +93,11 @@ public class EditorView extends JPanel{
 	
 	public void addScale(double scale){
 		this.scale += scale;
-		if(this.scale <= 0.1) 
+		if(this.scale < 0.1) 
 			this.scale = .1;
+
+		if(this.scale > 2) 
+			this.scale = 2;
 	}
 	
 	public void setScale(double scale){
@@ -108,27 +109,46 @@ public class EditorView extends JPanel{
 		
 	}
 	
-	public int getTileSize(){
-		return tileList.size();
+	public int getRoomAmount(){
+		return roomList.size();
+	}
+	
+	public void addRoom(Room room){
+		for(Room i : roomList){
+			if(i.collision(room))
+				return;
+		}
+		roomList.add(room);
+	}
+	
+	public void removeRoom(Room room){
+		roomList.remove(room);
+	}
+	
+	public int getTileAmount(){
+		int i = 0;
+		for(Room r : roomList)
+			i += r.getTileAmount();
+		return i;
 	}
 	
 	public void addTile(Tile tile){
-		for(Tile i : tileList){
-			if(i.collision(tile)){
-				return;
+		for(Room r : roomList){
+			if(r.collision(tile)){
+				r.addTile(tile);
+				break;
 			}
 		}
-		tileList.add(tile);
 	}
 	
 	public void removeTile(double x, double y){
-		Tile tile = null;
-		for(Tile i : tileList){
-			tile = (Tile) i.collisionPoint(x, y);
-			if(tile != null)
+		Room room = null;
+		for(Room r : roomList){
+			room = (Room) r.collisionPoint(x, y);
+			if(room != null)
+				room.removeTile(x, y);
 				break;
 		}
-		tileList.remove(tile);
 	}
 
 	public double getXOffset(){

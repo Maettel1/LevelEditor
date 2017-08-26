@@ -1,21 +1,21 @@
 package de.framework;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.geom.Area;
 import java.util.ArrayList;
 
 import static de.framework.Options.*;
 
-public class Room {
+public class Room extends GameObject{
 
-	private ArrayList<Tile> tiles;
-	private Area hitBox;
+	private ArrayList<Tile> tileList;
 	private Dimension dimension;
-	public int x,y;
 	
 	public Room(double x, double y){
-		tiles = new ArrayList<Tile>();
+		tileList = new ArrayList<Tile>();
 		
 		this.x = Math.floorDiv((int) x, roomWidth*tileSize)*roomWidth*tileSize;
 		this.y = Math.floorDiv((int) y, roomHeight*tileSize)*roomHeight*tileSize;
@@ -24,12 +24,27 @@ public class Room {
 		hitBox = new Area(new Rectangle(this.x, this.y, dimension.width, dimension.height));
 	}
 	
-	public void addTile(Tile tile){
-		tiles.add(tile);
+	public int getTileAmount(){
+		return tileList.size();
 	}
 	
-	public void removeTile(Tile tile){
-		tiles.remove(tile);
+	public void addTile(Tile tile){
+		for(Tile i : tileList){
+			if(i.collision(tile)){
+				return;
+			}
+		}
+		tileList.add(tile);
+	}
+	
+	public void removeTile(double x, double y){
+		Tile tile = null;
+		for(Tile i : tileList){
+			tile = (Tile) i.collisionPoint(x, y);
+			if(tile != null)
+				break;
+		}
+		tileList.remove(tile);
 	}
 	
 	public Area getHitBox(){
@@ -42,5 +57,19 @@ public class Room {
 		
 		dimension = new Dimension(roomWidth*tileSize,roomHeight*tileSize);
 		hitBox = new Area(new Rectangle(this.x, this.y, dimension.width, dimension.height));
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public void draw(Graphics g) {
+		g.setColor(Color.gray);
+		g.drawRect(x+1, y+1, dimension.width-2, dimension.height-2);
+		g.setColor(Color.white);
+		g.drawRect(x, y, dimension.width, dimension.height);
+		g.setColor(Color.gray);
+		g.drawRect(x-1, y-1, dimension.width+2, dimension.height+2);
+		
+		for(Tile t : (ArrayList<Tile>) tileList.clone())
+			t.draw(g);
 	}
 }

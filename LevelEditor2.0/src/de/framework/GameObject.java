@@ -1,5 +1,6 @@
 package de.framework;
 
+import java.awt.Graphics;
 import java.awt.Polygon;
 import java.awt.geom.Area;
 
@@ -23,4 +24,6 @@ public abstract class GameObject {
 			return this;
 		else return null;
 	}
+	
+	public abstract void draw(Graphics g);
 }
