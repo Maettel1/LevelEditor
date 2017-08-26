@@ -3,13 +3,13 @@ package de.visuals;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
-import java.text.NumberFormat;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
 import de.framework.Animator;
 import de.framework.Options;
+import de.framework.Tile;
 import de.visuals.listeners.EditorKeyListener;
 import de.visuals.listeners.EditorMouseListener;
 import de.visuals.listeners.EditorMouseWheelListener;
@@ -25,8 +25,18 @@ public class EditorView extends JPanel{
 	private double offsetx, offsety;
 	private EditorCamera cam;
 	private Animator ani;
+	private int placeState = 1;
+	private ArrayList<Tile> tileList;
 
-	public EditorView(){
+	public int getPlaceState() {
+		return placeState;
+	}
+
+	public void setPlaceState(int i) {
+		this.placeState = i;
+	}
+
+	public EditorView(TileSelector tileSelector){
 		setFocusable(true);
 		
 		cam = new EditorCamera();
@@ -36,7 +46,7 @@ public class EditorView extends JPanel{
 		
 		addKeyListener(new EditorKeyListener(this));
 		addMouseWheelListener(new EditorMouseWheelListener(this));
-		EditorMouseListener mouseInput = new EditorMouseListener(this);
+		EditorMouseListener mouseInput = new EditorMouseListener(this, tileSelector);
 		addMouseListener(mouseInput);
 		addMouseMotionListener(mouseInput);
 		
@@ -48,6 +58,8 @@ public class EditorView extends JPanel{
 		}
 		
 		this.setDoubleBuffered(true);
+		
+		tileList = new ArrayList<Tile>();
 	}
 	
 	protected void paintComponent(Graphics g){
@@ -65,39 +77,16 @@ public class EditorView extends JPanel{
 		g2d.setColor(Color.red);
 		g2d.fillOval(10, 10, 100, 100);
 		
-		paintChildren(g2d);
+		@SuppressWarnings("unchecked")
+		ArrayList<Tile> tileListCopy = (ArrayList<Tile>) tileList.clone();
+		for(Tile i : tileListCopy)
+			i.draw(g);
 		
-		drawHUD(g2d);
+		paintChildren(g2d);
 		
 		g.dispose();
 		g2d.dispose();
 	}
-	
-	private void drawHUD(Graphics2D g2d){
-
-		Runtime runtime = Runtime.getRuntime();
-		NumberFormat format = NumberFormat.getInstance();
-
-		StringBuilder sb = new StringBuilder();
-		long maxMemory = runtime.maxMemory();
-		long allocatedMemory = runtime.totalMemory();
-		long freeMemory = runtime.freeMemory();
-
-		sb.append("free memory: " + format.format(freeMemory / 1024) + "KB\n");
-		sb.append("allocated memory: " + format.format(allocatedMemory / 1024) + "KB\n");
-		sb.append("max memory: " + format.format(maxMemory / 1024) + "KB\n");
-		sb.append("total free memory: " + format.format((freeMemory + (maxMemory - allocatedMemory)) / 1024) + "KB\n");
-		
-		g2d.setTransform(new AffineTransform());
-		
-		g2d.setColor(Color.white);
-		drawString(g2d,sb.toString(),10,10);
-	}
-
-	private void drawString(Graphics g, String text, int x, int y) {
-        for (String line : text.split("\n"))
-            g.drawString(line, x, y += g.getFontMetrics().getHeight());
-    }
 	
 	public void addOffset(double x, double y){
 		offsetx += x;
@@ -117,6 +106,29 @@ public class EditorView extends JPanel{
 	public String toString(){
 		return new String("Scale: " + scale + " Offset: " + offsetx + " " + offsety);
 		
+	}
+	
+	public int getTileSize(){
+		return tileList.size();
+	}
+	
+	public void addTile(Tile tile){
+		for(Tile i : tileList){
+			if(i.collision(tile)){
+				return;
+			}
+		}
+		tileList.add(tile);
+	}
+	
+	public void removeTile(double x, double y){
+		Tile tile = null;
+		for(Tile i : tileList){
+			tile = (Tile) i.collisionPoint(x, y);
+			if(tile != null)
+				break;
+		}
+		tileList.remove(tile);
 	}
 
 	public double getXOffset(){

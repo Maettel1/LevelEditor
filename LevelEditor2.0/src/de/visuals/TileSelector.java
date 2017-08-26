@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 import de.framework.Options;
-import de.framework.Tile;
+import de.framework.TileSelection;
 
 public class TileSelector extends JPanel{
 
@@ -18,16 +18,19 @@ public class TileSelector extends JPanel{
 	 */
 	private static final long serialVersionUID = 7224953310597476006L;
 
-	private ArrayList<Tile> tiles;
+	private ArrayList<TileSelection> tiles;
+	private int selection = 0;
+	
 	
 	public TileSelector(){
 		
 		this.setPreferredSize(new Dimension(Options.tileSize*4,Options.tileSize*10));
 		this.setMaximumSize(new Dimension(Options.tileSize*4,Options.tileSize*10));
 		this.setMinimumSize(new Dimension(Options.tileSize*4+2,Options.tileSize*10));
-		tiles = new ArrayList<Tile>();
+		tiles = new ArrayList<TileSelection>();
 		
-		Tile testwall = new Tile(Options.tileSize, Options.tileSize, "SpritesheetWall.png");
+		//TODO remove and make more flexible
+		TileSelection testwall = new TileSelection(Options.tileSize, Options.tileSize, "SpritesheetWall.png");
 		tiles.add(testwall);
 	}
 	
@@ -47,7 +50,10 @@ public class TileSelector extends JPanel{
 		for(int i = 1; i <= 10; i++){
 			g.drawLine(0, i*32, getWidth(), 32*i);
 		}
-		
+		g.dispose();
 	}
 	
+	public TileSelection getSelected(){
+		return tiles.get(selection);
+	}
 }

@@ -24,7 +24,6 @@ public class Animator implements Runnable{
 	
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
 		byte fps = 60;
 		
 		long lastTime = System.nanoTime();
