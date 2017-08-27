@@ -51,8 +51,6 @@ public class EditorView extends JPanel{
 		addMouseListener(mouseInput);
 		addMouseMotionListener(mouseInput);
 		
-		System.out.println(toString());
-		
 		if(Options.animation == true){
 			ani = new Animator(this);
 			ani.start();

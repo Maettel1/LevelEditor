@@ -3,6 +3,7 @@ package de.framework;
 import java.awt.Graphics;
 import java.awt.Polygon;
 import java.awt.geom.Area;
+import java.util.ArrayList;
 
 public abstract class GameObject {
 	
@@ -19,6 +20,27 @@ public abstract class GameObject {
 		return true;
 	}
 	
+	public GameObject collision(double x, double y, Class<?> obj, ArrayList<GameObject> list){
+		
+		@SuppressWarnings("unchecked")
+		ArrayList<GameObject> listCopy = (ArrayList<GameObject>) list.clone();
+		
+		for(GameObject go : listCopy){
+			
+			if(go.getClass() == obj || go.getClass().getSuperclass() == obj){
+				Polygon tempPoly = new Polygon(poly.xpoints,poly.ypoints,poly.npoints);
+				tempPoly.translate((int)x-this.x, (int)y-this.y);
+				Area tempArea = new Area(tempPoly);
+				tempArea.intersect(go.getHitBox());
+				if(!tempArea.isEmpty()){
+					return go;
+				}
+			}
+		}
+		
+		return null;
+	}
+	
 	public GameObject collisionPoint(double x, double y){
 		if(hitBox.contains(x, y))
 			return this;
@@ -26,4 +48,8 @@ public abstract class GameObject {
 	}
 	
 	public abstract void draw(Graphics g);
+	
+	public Area getHitBox(){
+		return hitBox;
+	}
 }
