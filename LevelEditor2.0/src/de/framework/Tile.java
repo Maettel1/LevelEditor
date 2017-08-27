@@ -47,6 +47,7 @@ public class Tile extends GameObject{
 		return hitBox;
 	}
 	
+	@Override
 	public void draw(Graphics g){
 		g.drawImage(tile.getThumbnail(), x, y, null);
 		g.drawImage(image, x, y, null);

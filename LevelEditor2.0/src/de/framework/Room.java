@@ -52,8 +52,8 @@ public class Room extends GameObject{
 	}
 	
 	public void updateDimension(){
-		x = Math.floorDiv((int) x, roomWidth*tileSize)*roomWidth*tileSize;
-		y = Math.floorDiv((int) y, roomHeight*tileSize)*roomHeight*tileSize;
+		x = Math.floorDiv(x, roomWidth*tileSize)*roomWidth*tileSize;
+		y = Math.floorDiv(y, roomHeight*tileSize)*roomHeight*tileSize;
 		
 		dimension = new Dimension(roomWidth*tileSize,roomHeight*tileSize);
 		hitBox = new Area(new Rectangle(this.x, this.y, dimension.width, dimension.height));

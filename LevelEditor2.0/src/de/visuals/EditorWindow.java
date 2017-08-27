@@ -2,7 +2,8 @@ package de.visuals;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.NumberFormat;
@@ -12,7 +13,6 @@ import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
@@ -34,7 +34,8 @@ public class EditorWindow extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			//UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			UIManager.setLookAndFeel("com.jtattoo.plaf.noire.NoireLookAndFeel");
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
 				| UnsupportedLookAndFeelException e) {
 			// TODO Auto-generated catch block
@@ -49,20 +50,22 @@ public class EditorWindow extends JFrame {
 
 		// right component
 		JPanel rightPanel = new JPanel();
-		FlowLayout bl = (FlowLayout) rightPanel.getLayout();
-		bl.setHgap(0);
-		bl.setVgap(0);
-
+		rightPanel.setLayout(new GridBagLayout());
+		
+		GridBagConstraints c = new GridBagConstraints();
+		
+		c.anchor = GridBagConstraints.PAGE_START;
+		c.weightx = 1;
+		c.weighty = 1;
+		c.fill = GridBagConstraints.BOTH;
+		
 		TileSelector tiles = new TileSelector();
-		DnDPanel dndtiles = new DnDPanel(tiles);
+		DnDPanel dndTiles = new DnDPanel(tiles);
+		
+		rightPanel.add(dndTiles, c);
 
-		rightPanel.add(dndtiles);
-
-		JScrollPane scrollPane = new JScrollPane(rightPanel);
-		scrollPane.setPreferredSize(tiles.getPreferredSize());
-
-		splitpane.setRightComponent(scrollPane);
-
+		splitpane.setRightComponent(rightPanel);
+		
 		// left component
 		EditorView editor = new EditorView(tiles);
 		splitpane.setLeftComponent(editor);

@@ -24,9 +24,8 @@ public class TileSelector extends JPanel{
 	
 	public TileSelector(){
 		
-		this.setPreferredSize(new Dimension(Options.tileSize*4,Options.tileSize*10));
-		this.setMaximumSize(new Dimension(Options.tileSize*4,Options.tileSize*10));
-		this.setMinimumSize(new Dimension(Options.tileSize*4+2,Options.tileSize*10));
+		setPreferredSize(new Dimension(Options.tileSize*4,Options.tileSize*10));
+		setMaximumSize(new Dimension(Options.tileSize*4,Options.tileSize*10));
 		tiles = new ArrayList<TileSelection>();
 		
 		//TODO remove and make more flexible
@@ -34,21 +33,23 @@ public class TileSelector extends JPanel{
 		tiles.add(testwall);
 	}
 	
+	@Override
 	public void paintComponent(Graphics g){
+		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
 		g.setColor(Color.black);
-		g.fillRect(0, 0, getWidth(), getHeight());
+		g.fillRect(0, 0, Options.tileSize*4, Options.tileSize*10);
 		
 		g2d.drawImage(tiles.get(0).getThumbnail(), 0, 0, null);
 		g.setColor(Color.white);
 		
 		//columns
-		for(int i = 1; i <= 4; i++){
-			g.drawLine(i*32, 0, i*32, getHeight());
+		for(int i = 0; i <= 4; i++){
+			g.drawLine(i*Options.tileSize, 0, i*Options.tileSize, Options.tileSize*10);
 		}
 		//rows
-		for(int i = 1; i <= 10; i++){
-			g.drawLine(0, i*32, getWidth(), 32*i);
+		for(int i = 0; i <= 10; i++){
+			g.drawLine(0, i*Options.tileSize, Options.tileSize*4, Options.tileSize*i);
 		}
 		g.dispose();
 	}

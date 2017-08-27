@@ -65,6 +65,7 @@ public class EditorView extends JPanel{
 		addRoom(new Room(0,0));
 	}
 	
+	@Override
 	protected void paintComponent(Graphics g){
 		
 		Graphics2D g2d = (Graphics2D)g;
@@ -104,6 +105,7 @@ public class EditorView extends JPanel{
 		this.scale = scale;
 	}
 	
+	@Override
 	public String toString(){
 		return new String("Scale: " + scale + " Offset: " + offsetx + " " + offsety);
 		
