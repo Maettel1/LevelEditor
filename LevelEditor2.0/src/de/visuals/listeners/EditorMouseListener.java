@@ -125,7 +125,7 @@ public class EditorMouseListener implements MouseInputListener{
 		double y1 = arg0.getY()/editor.getScale() - editor.getYOffset();
 		double x1 = arg0.getX()/editor.getScale() - editor.getXOffset();
 		
-		editor.addTile(new Tile(x1,y1,tileSelector.getSelected(),true));
+		editor.addTile(new Tile(x1,y1,tileSelector.getSelection(),true));
 	}
 	
 	private void removeTile(MouseEvent arg0){

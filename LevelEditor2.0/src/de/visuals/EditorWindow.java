@@ -20,14 +20,21 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.BevelBorder;
 
+import de.visuals.util.Filework;
+
 public class EditorWindow extends JFrame {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -6833927369553211675L;
+	
+	public static EditorView editor;
+	public static TileSelector tileSelector;
 
 	public EditorWindow(int width, int height) {
+		Filework.init();
+		
 		this.setLayout(new BorderLayout());
 		setSize(500, 500);
 		setLocationRelativeTo(null);
@@ -59,15 +66,15 @@ public class EditorWindow extends JFrame {
 		c.weighty = 1;
 		c.fill = GridBagConstraints.BOTH;
 		
-		TileSelector tiles = new TileSelector();
-		DnDPanel dndTiles = new DnDPanel(tiles);
+		tileSelector = new TileSelector();
+		DnDPanel dndTiles = new DnDPanel(tileSelector);
 		
 		rightPanel.add(dndTiles, c);
 
 		splitpane.setRightComponent(rightPanel);
 		
 		// left component
-		EditorView editor = new EditorView(tiles);
+		editor = new EditorView(tileSelector);
 		splitpane.setLeftComponent(editor);
 
 		// Toolbar

@@ -11,6 +11,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
+import de.visuals.util.Filework;
+
 public class EditorMenuBar extends JMenuBar implements ActionListener {
 
 	/**
@@ -125,6 +127,14 @@ public class EditorMenuBar extends JMenuBar implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		System.out.println(((JMenuItem) arg0.getSource()).getText());
+		switch(((JMenuItem) arg0.getSource()).getText()){
+		case "Save":
+			Filework.save(EditorWindow.editor.getRoomList());
+			break;
+		case "Open...":
+			EditorWindow.editor.setRoomList(Filework.load());
+			break;
+		}
 	}
 
 }

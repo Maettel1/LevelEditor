@@ -3,14 +3,19 @@ package de.framework;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.geom.Area;
 import java.util.ArrayList;
 
 import static de.framework.Options.*;
 
-public class Room extends GameObject {
+public class Room extends GameObject{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8268873046380546182L;
 	private ArrayList<Tile> tileList;
 	private Dimension dimension;
 
@@ -21,7 +26,14 @@ public class Room extends GameObject {
 		this.y = Math.floorDiv((int) y, roomHeight * tileSize) * roomHeight * tileSize;
 
 		dimension = new Dimension(roomWidth * tileSize, roomHeight * tileSize);
-		hitBox = new Area(new Rectangle(this.x, this.y, dimension.width, dimension.height));
+		poly = new Polygon();
+		poly.addPoint(0, 0);
+		poly.addPoint(0, dimension.width);
+		poly.addPoint(dimension.height, dimension.width);
+		poly.addPoint(dimension.height, 0);
+		
+		poly.translate(this.x, this.y);
+		createHitBox();
 	}
 
 	public int getTileAmount() {
@@ -57,6 +69,16 @@ public class Room extends GameObject {
 		dimension = new Dimension(roomWidth * tileSize, roomHeight * tileSize);
 		hitBox = new Area(new Rectangle(this.x, this.y, dimension.width, dimension.height));
 	}
+	
+	public void update(){
+		createHitBox();
+		for(Tile t : tileList){
+			t.createHitBox();
+		}
+		for(Tile t : tileList){
+			t.update();
+		}
+	}
 
 	public ArrayList<Tile> getTileList() {
 		return tileList;
@@ -75,4 +97,6 @@ public class Room extends GameObject {
 		for (Tile t : (ArrayList<Tile>) tileList.clone())
 			t.draw(g);
 	}
+	
+	
 }

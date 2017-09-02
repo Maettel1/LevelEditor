@@ -3,17 +3,22 @@ package de.framework;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Polygon;
-import java.awt.geom.Area;
 import java.util.ArrayList;
+
+import de.visuals.EditorWindow;
 
 public class Tile extends GameObject{
 
-	
-	private Image image;
-	private TileSelection tile;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3966935983789187212L;
+	private transient Image image;
+	private int tileSelection;
 	private Room room;
+	private int imageNumber;
 	
-	public Tile(double x, double y, TileSelection tile, boolean square){
+	public Tile(double x, double y, int tileSelection, boolean square){
 		poly = new Polygon();
 		
 		poly.addPoint(0, 0);
@@ -31,9 +36,10 @@ public class Tile extends GameObject{
 		poly.translate(deltaX, deltaY);
 		createHitBox();
 		
-		this.tile = tile;
+		this.tileSelection = tileSelection;
 		
-		image = tile.getImage(43);
+		imageNumber = 43;
+		image = EditorWindow.tileSelector.getSelection(tileSelection).getImage(imageNumber);
 	}
 	
 	public void setRoom(Room room){
@@ -43,32 +49,33 @@ public class Tile extends GameObject{
 	}
 	
 	public void update(){
+		
 		@SuppressWarnings("unchecked")
 		ArrayList<GameObject> list = (ArrayList<GameObject>) room.getTileList().clone();
 		
 		Tile temp; 
-		temp = (Tile) collision(x - 32, y, Tile.class, list);
+		temp = (Tile) collision(x - Options.tileSize, y, Tile.class, list);
 		if (temp != null)
 			temp.getImageNumber();
-		temp = (Tile) collision(x - 32, y - 32, Tile.class, list);
+		temp = (Tile) collision(x - Options.tileSize, y - Options.tileSize, Tile.class, list);
 		if (temp != null)
 			temp.getImageNumber();
-		temp = (Tile) collision(x, y - 32, Tile.class, list);
+		temp = (Tile) collision(x, y - Options.tileSize, Tile.class, list);
 		if (temp != null)
 			temp.getImageNumber();
-		temp = (Tile) collision(x + 32, y - 32, Tile.class, list);
+		temp = (Tile) collision(x + Options.tileSize, y - Options.tileSize, Tile.class, list);
 		if (temp != null)
 			temp.getImageNumber();
-		temp = (Tile) collision(x + 32, y, Tile.class, list);
+		temp = (Tile) collision(x + Options.tileSize, y, Tile.class, list);
 		if (temp != null)
 			temp.getImageNumber();
-		temp = (Tile) collision(x + 32, y + 32, Tile.class, list);
+		temp = (Tile) collision(x + Options.tileSize, y + Options.tileSize, Tile.class, list);
 		if (temp != null)
 			temp.getImageNumber();
-		temp = (Tile) collision(x, y + 32, Tile.class, list);
+		temp = (Tile) collision(x, y + Options.tileSize, Tile.class, list);
 		if (temp != null)
 			temp.getImageNumber();
-		temp = (Tile) collision(x - 32, y + 32, Tile.class, list);
+		temp = (Tile) collision(x - Options.tileSize, y + Options.tileSize, Tile.class, list);
 		if (temp != null)
 			temp.getImageNumber();
 	}
@@ -214,17 +221,16 @@ public class Tile extends GameObject{
 		} else if (left) {
 			tile = 3;
 		}
-		
-		image = this.tile.getImage(tile);
+		imageNumber = tile;
+		image = EditorWindow.tileSelector.getSelection(tileSelection).getImage(imageNumber);
 	}
 	
-	private void createHitBox(){
-		hitBox = new Area(poly);
-	}
+
 	
 	@Override
 	public void draw(Graphics g){
-		g.drawImage(tile.getThumbnail(), x, y, null);
+		g.drawImage(EditorWindow.tileSelector.getSelection(tileSelection).getThumbnail(), x, y, null);
 		g.drawImage(image, x, y, null);
 	}
+	
 }

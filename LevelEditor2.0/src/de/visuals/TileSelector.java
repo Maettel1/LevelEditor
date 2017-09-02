@@ -57,4 +57,11 @@ public class TileSelector extends JPanel{
 	public TileSelection getSelected(){
 		return tiles.get(selection);
 	}
+	
+	public TileSelection getSelection(int i){
+		return tiles.get(i);
+	}
+	public int getSelection(){
+		return selection;
+	}
 }
