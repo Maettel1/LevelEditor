@@ -28,9 +28,9 @@ public class Room extends GameObject{
 		dimension = new Dimension(roomWidth * tileSize, roomHeight * tileSize);
 		poly = new Polygon();
 		poly.addPoint(0, 0);
-		poly.addPoint(0, dimension.width);
-		poly.addPoint(dimension.height, dimension.width);
-		poly.addPoint(dimension.height, 0);
+		poly.addPoint(0, dimension.height);
+		poly.addPoint(dimension.width, dimension.height);
+		poly.addPoint(dimension.width, 0);
 		
 		poly.translate(this.x, this.y);
 		createHitBox();

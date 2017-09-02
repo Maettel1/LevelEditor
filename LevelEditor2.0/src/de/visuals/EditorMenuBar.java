@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JMenu;
@@ -11,6 +12,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
+import de.framework.Room;
 import de.visuals.util.Filework;
 
 public class EditorMenuBar extends JMenuBar implements ActionListener {
@@ -132,7 +134,9 @@ public class EditorMenuBar extends JMenuBar implements ActionListener {
 			Filework.save(EditorWindow.editor.getRoomList());
 			break;
 		case "Open...":
-			EditorWindow.editor.setRoomList(Filework.load());
+			ArrayList<Room> roomList= Filework.load();
+			if(roomList != null)
+				EditorWindow.editor.setRoomList(roomList);
 			break;
 		}
 	}
