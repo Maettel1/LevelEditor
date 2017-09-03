@@ -30,8 +30,13 @@ public class Filework {
 
 			try {
 				String FileString = chooser.getSelectedFile().toString();
-				if (!FileString.contains("."))
+				if (!FileString.endsWith(".lvl")){
+					if(FileString.contains(".")){
+						System.out.println("wrong datatype!");
+						return;
+					}
 					FileString += ".lvl";
+				}
 				out = new ObjectOutputStream(new FileOutputStream(FileString));
 
 				/*
@@ -71,7 +76,7 @@ public class Filework {
 
 				if (!FileString.endsWith(".lvl")) {
 					System.out.println("Unsupported format!");
-					throw null;
+					return null;
 				}
 				 in = new ObjectInputStream(new FileInputStream(FileString));
 				 

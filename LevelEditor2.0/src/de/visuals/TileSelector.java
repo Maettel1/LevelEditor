@@ -29,7 +29,7 @@ public class TileSelector extends JPanel{
 		tiles = new ArrayList<TileSelection>();
 		
 		//TODO remove and make more flexible
-		TileSelection testwall = new TileSelection(Options.tileSize, Options.tileSize, "SpritesheetWall.png");
+		TileSelection testwall = new TileSelection(Options.tileSize, Options.tileSize, "/SpritesheetWall.png");
 		tiles.add(testwall);
 	}
 	

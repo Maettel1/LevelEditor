@@ -20,6 +20,8 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.BevelBorder;
 
+import de.visuals.util.Filework;
+
 public class EditorWindow extends JFrame {
 
 	/**
@@ -31,6 +33,7 @@ public class EditorWindow extends JFrame {
 	public static TileSelector tileSelector;
 
 	public EditorWindow(int width, int height) {
+		
 		setLayout(new BorderLayout());
 		setSize(500, 500);
 		setLocationRelativeTo(null);
@@ -44,6 +47,8 @@ public class EditorWindow extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		Filework.init();
 
 		// splitpane
 		JSplitPane splitpane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);

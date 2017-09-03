@@ -120,6 +120,19 @@ public class EditorView extends JPanel {
 		}
 		roomList.add(room);
 	}
+	
+	public Room selectRoom(double x, double y){
+		Room r = null;
+		for(Room r1 : roomList){
+			if(r1.collisionPoint(x, y) != null)
+				r = r1;
+		}
+		for(Room r1 : roomList){
+			if(r1 != r)
+				r1.OnMouseUnclick();
+		}
+		return r;
+	}
 
 	public void removeRoom(Room room) {
 		roomList.remove(room);
@@ -173,7 +186,7 @@ public class EditorView extends JPanel {
 			r.createHitBox();
 		}
 		for (Room r : roomList) {
-			r.update();
+			r.OnLoad();
 		}
 		repaint();
 	}

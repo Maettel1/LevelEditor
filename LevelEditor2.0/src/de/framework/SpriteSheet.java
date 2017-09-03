@@ -19,7 +19,7 @@ public class SpriteSheet {
 		BufferedImage sheet = null;
 		
 		try{
-			URL url = this.getClass().getClassLoader().getResource(ressource);
+			URL url = this.getClass().getResource(ressource);
 			sheet = ImageIO.read(url);
 		}catch(Exception e){
 			System.out.println("Spritesheet can't be opened!");

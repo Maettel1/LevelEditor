@@ -232,5 +232,10 @@ public class Tile extends GameObject{
 		g.drawImage(EditorWindow.tileSelector.getSelection(tileSelection).getThumbnail(), x, y, null);
 		g.drawImage(image, x, y, null);
 	}
+
+	public void OnLoad() {
+		image = EditorWindow.tileSelector.getSelection(tileSelection).getImage(imageNumber);
+		
+	}
 	
 }
