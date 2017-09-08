@@ -58,9 +58,18 @@ public class EditorView extends JPanel {
 
 		this.setDoubleBuffered(true);
 
+	}
+
+	public void newProject() {
 		roomList = new ArrayList<Room>();
 
 		addRoom(new Room(0, 0));
+
+		int x = getWidth() / 2 - (Options.roomWidth * Options.tileSize) / 2;
+		int y = getHeight() / 2 - (Options.roomHeight * Options.tileSize) / 2;
+		setOffset(x, y);
+
+		repaint();
 	}
 
 	@Override
@@ -110,7 +119,10 @@ public class EditorView extends JPanel {
 	}
 
 	public int getRoomAmount() {
-		return roomList.size();
+		if (roomList != null)
+			return roomList.size();
+		else
+			return 0;
 	}
 
 	public void addRoom(Room room) {
@@ -120,18 +132,24 @@ public class EditorView extends JPanel {
 		}
 		roomList.add(room);
 	}
-	
-	public Room selectRoom(double x, double y){
+
+	public Room selectRoom(double x, double y) {
 		Room r = null;
-		for(Room r1 : roomList){
-			if(r1.collisionPoint(x, y) != null)
+		for (Room r1 : roomList) {
+			if (r1.collisionPoint(x, y) != null)
 				r = r1;
 		}
-		for(Room r1 : roomList){
-			if(r1 != r)
+		for (Room r1 : roomList) {
+			if (r1 != r)
 				r1.OnMouseUnclick();
 		}
 		return r;
+	}
+
+	public void unselectRoom() {
+		for (Room r : roomList) {
+			r.OnMouseUnclick();
+		}
 	}
 
 	public void removeRoom(Room room) {
@@ -139,10 +157,13 @@ public class EditorView extends JPanel {
 	}
 
 	public int getTileAmount() {
-		int i = 0;
-		for (Room r : roomList)
-			i += r.getTileAmount();
-		return i;
+		if (roomList != null) {
+			int i = 0;
+			for (Room r : roomList)
+				i += r.getTileAmount();
+			return i;
+		} else
+			return 0;
 	}
 
 	public void addTile(Tile tile) {

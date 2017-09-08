@@ -130,8 +130,13 @@ public class EditorWindow extends JFrame {
 		setJMenuBar(new EditorMenuBar());
 
 		setMinimumSize(new Dimension(300, 200));
+		
+		setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
 
+		
 		setVisible(true);
+		
+		editor.newProject();
 	}
 
 	private void addToolBar(EditorView component) {
@@ -162,12 +167,16 @@ public class EditorWindow extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				component.setPlaceState(2);
+				component.unselectRoom();
+				component.repaint();
 			}
 		});
 		objectButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				component.setPlaceState(3);
+				component.unselectRoom();
+				component.repaint();
 			}
 		});
 
