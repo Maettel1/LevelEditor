@@ -97,13 +97,19 @@ public class Room extends GameObject {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void draw(Graphics g) {
+		boolean outOfRoom = false;
 
-		for (Tile t : (ArrayList<Tile>) tileList.clone())
-			t.draw(g);
+		for (Tile t : (ArrayList<Tile>) tileList.clone()){
+			if(t.x >= x && t.y >= y && 
+					t.x < x+dimension.getWidth() && t.y < y+dimension.getHeight())
+				t.draw(g);
+			else
+				outOfRoom = true;
+		}
 
 		if (selected) {
 			drawSelectedBorder(g);
-			drawUI(g);
+			drawUI(g, outOfRoom);
 		} else
 			drawBorder(g);
 	}
@@ -127,7 +133,7 @@ public class Room extends GameObject {
 
 	}
 
-	private void drawUI(Graphics g) {
+	private void drawUI(Graphics g, boolean oor) {
 		// enlarges
 		g.drawImage(UI.getSprite(8), x + (int) dimension.getWidth() / 2 - 20, y, null);
 		g.drawImage(UI.getSprite(0), x + (int) dimension.getWidth() / 2 - 20, y, null);
@@ -158,6 +164,9 @@ public class Room extends GameObject {
 		g.drawImage(UI.getSprite(8), x + (int) dimension.getWidth() - 20, y + (int) dimension.getHeight() / 2, null);
 		g.drawImage(UI.getSprite(2), x + (int) dimension.getWidth() - 20, y + (int) dimension.getHeight() / 2, null);
 
+		//out of room
+		if(oor)
+			g.drawImage(UI.getSprite(9), x + (int) dimension.getWidth() / 2-10, y + (int) dimension.getHeight() / 2-10, null);
 	}
 
 	public void OnMouseClick() {
