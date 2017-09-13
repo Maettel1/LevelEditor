@@ -174,6 +174,7 @@ public class Room extends GameObject {
 			buttonClick();
 
 		selected = true;
+		EditorWindow.editor.sortRoomList(this);
 	}
 
 	public void OnMouseUnclick() {
@@ -251,23 +252,39 @@ public class Room extends GameObject {
 	// #################
 
 	public void enlargeTop() {
+		@SuppressWarnings("unchecked")
+		ArrayList<GameObject> listCopy = (ArrayList<GameObject>) EditorWindow.editor.getRoomList().clone();
+		if(collision(x,y-tileSize*roomHeight,Room.class,listCopy, this) != null)
+			return;
 		dimension.setSize(dimension.getWidth(), dimension.getHeight() + roomHeight * tileSize);
 		y -= roomHeight * tileSize;
 		createHitBox();
 	}
 
 	public void enlargeBottom() {
+		@SuppressWarnings("unchecked")
+		ArrayList<GameObject> listCopy = (ArrayList<GameObject>) EditorWindow.editor.getRoomList().clone();
+		if(collision(x,y+tileSize*roomHeight,Room.class,listCopy, this) != null)
+			return;
 		dimension.setSize(dimension.getWidth(), dimension.getHeight() + roomHeight * tileSize);
 		createHitBox();
 	}
 
 	public void enlargeLeft() {
+		@SuppressWarnings("unchecked")
+		ArrayList<GameObject> listCopy = (ArrayList<GameObject>) EditorWindow.editor.getRoomList().clone();
+		if(collision(x-tileSize*roomWidth,y,Room.class,listCopy, this) != null)
+			return;
 		dimension.setSize(dimension.getWidth() + roomWidth * tileSize, dimension.getHeight());
 		x -= roomWidth * tileSize;
 		createHitBox();
 	}
 
 	public void enlargeRight() {
+		@SuppressWarnings("unchecked")
+		ArrayList<GameObject> listCopy = (ArrayList<GameObject>) EditorWindow.editor.getRoomList().clone();
+		if(collision(x+tileSize*roomWidth,y,Room.class, listCopy, this) != null)
+			return;
 		dimension.setSize(dimension.getWidth() + roomWidth * tileSize, dimension.getHeight());
 		createHitBox();
 	}

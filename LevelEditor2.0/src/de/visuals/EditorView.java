@@ -143,6 +143,12 @@ public class EditorView extends JPanel {
 			if (r1 != r)
 				r1.OnMouseUnclick();
 		}
+		
+		if (r != null)
+			r.OnMouseClick();
+
+		if (Options.animation == false)
+			EditorWindow.editor.repaint();
 		return r;
 	}
 
@@ -154,6 +160,17 @@ public class EditorView extends JPanel {
 
 	public void removeRoom(Room room) {
 		roomList.remove(room);
+	}
+	
+	public void removeRoom(double x, double y) {
+		Room room = null;
+		for (Room r : roomList) {
+			room = (Room) r.collisionPoint(x, y);
+			if (room != null){
+				removeRoom(r);
+				break;
+			}
+		}
 	}
 
 	public int getTileAmount() {
@@ -179,9 +196,10 @@ public class EditorView extends JPanel {
 		Room room = null;
 		for (Room r : roomList) {
 			room = (Room) r.collisionPoint(x, y);
-			if (room != null)
+			if (room != null){
 				room.removeTile(x, y);
-			break;
+				break;
+			}
 		}
 	}
 
@@ -199,6 +217,11 @@ public class EditorView extends JPanel {
 
 	public ArrayList<Room> getRoomList() {
 		return roomList;
+	}
+	
+	public void sortRoomList(Room room){
+		roomList.remove(room);
+		roomList.add(room);
 	}
 
 	public void setRoomList(ArrayList<Room> roomList) {

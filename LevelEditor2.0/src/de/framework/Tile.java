@@ -54,28 +54,28 @@ public class Tile extends GameObject{
 		ArrayList<GameObject> list = (ArrayList<GameObject>) room.getTileList().clone();
 		
 		Tile temp; 
-		temp = (Tile) collision(x - Options.tileSize, y, Tile.class, list);
+		temp = (Tile) collision(x - Options.tileSize, y, Tile.class, list, this);
 		if (temp != null)
 			temp.getImageNumber();
-		temp = (Tile) collision(x - Options.tileSize, y - Options.tileSize, Tile.class, list);
+		temp = (Tile) collision(x - Options.tileSize, y - Options.tileSize, Tile.class, list, this);
 		if (temp != null)
 			temp.getImageNumber();
-		temp = (Tile) collision(x, y - Options.tileSize, Tile.class, list);
+		temp = (Tile) collision(x, y - Options.tileSize, Tile.class, list, this);
 		if (temp != null)
 			temp.getImageNumber();
-		temp = (Tile) collision(x + Options.tileSize, y - Options.tileSize, Tile.class, list);
+		temp = (Tile) collision(x + Options.tileSize, y - Options.tileSize, Tile.class, list, this);
 		if (temp != null)
 			temp.getImageNumber();
-		temp = (Tile) collision(x + Options.tileSize, y, Tile.class, list);
+		temp = (Tile) collision(x + Options.tileSize, y, Tile.class, list, this);
 		if (temp != null)
 			temp.getImageNumber();
-		temp = (Tile) collision(x + Options.tileSize, y + Options.tileSize, Tile.class, list);
+		temp = (Tile) collision(x + Options.tileSize, y + Options.tileSize, Tile.class, list, this);
 		if (temp != null)
 			temp.getImageNumber();
-		temp = (Tile) collision(x, y + Options.tileSize, Tile.class, list);
+		temp = (Tile) collision(x, y + Options.tileSize, Tile.class, list, this);
 		if (temp != null)
 			temp.getImageNumber();
-		temp = (Tile) collision(x - Options.tileSize, y + Options.tileSize, Tile.class, list);
+		temp = (Tile) collision(x - Options.tileSize, y + Options.tileSize, Tile.class, list, this);
 		if (temp != null)
 			temp.getImageNumber();
 	}
@@ -89,35 +89,35 @@ public class Tile extends GameObject{
 		@SuppressWarnings("unchecked")
 		ArrayList<GameObject> list = (ArrayList<GameObject>) room.getTileList().clone();
 
-		if (collision(x - Options.tileSize, y, Tile.class, list) == null)
+		if (collision(x - Options.tileSize, y, Tile.class, list, this) == null)
 			left = false;
 		else
 			left = true;
-		if (collision(x - Options.tileSize, y - Options.tileSize, Tile.class, list) == null)
+		if (collision(x - Options.tileSize, y - Options.tileSize, Tile.class, list, this) == null)
 			leftup = false;
 		else
 			leftup = true;
-		if (collision(x, y - Options.tileSize, Tile.class, list) == null)
+		if (collision(x, y - Options.tileSize, Tile.class, list, this) == null)
 			up = false;
 		else
 			up = true;
-		if (collision(x + Options.tileSize, y - Options.tileSize, Tile.class, list) == null)
+		if (collision(x + Options.tileSize, y - Options.tileSize, Tile.class, list, this) == null)
 			rightup = false;
 		else
 			rightup = true;
-		if (collision(x + Options.tileSize, y, Tile.class, list) == null)
+		if (collision(x + Options.tileSize, y, Tile.class, list, this) == null)
 			right = false;
 		else
 			right = true;
-		if (collision(x + Options.tileSize, y + Options.tileSize, Tile.class, list) == null)
+		if (collision(x + Options.tileSize, y + Options.tileSize, Tile.class, list, this) == null)
 			rightdown = false;
 		else
 			rightdown = true;
-		if (collision(x, y + Options.tileSize, Tile.class, list) == null)
+		if (collision(x, y + Options.tileSize, Tile.class, list, this) == null)
 			down = false;
 		else
 			down = true;
-		if (collision(x - Options.tileSize, y + Options.tileSize, Tile.class, list) == null)
+		if (collision(x - Options.tileSize, y + Options.tileSize, Tile.class, list, this) == null)
 			leftdown = false;
 		else
 			leftdown = true;

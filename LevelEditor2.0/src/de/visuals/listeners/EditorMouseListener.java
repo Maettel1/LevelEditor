@@ -9,6 +9,7 @@ import de.framework.Options;
 import de.framework.Room;
 import de.framework.Tile;
 import de.visuals.EditorView;
+import de.visuals.EditorWindow;
 import de.visuals.TileSelector;
 
 public class EditorMouseListener implements MouseInputListener {
@@ -46,10 +47,10 @@ public class EditorMouseListener implements MouseInputListener {
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-		//double y1 = arg0.getY()/editor.getScale() - editor.getYOffset();
-		//double x1 = arg0.getX()/editor.getScale() - editor.getXOffset();
+		// double y1 = arg0.getY()/editor.getScale() - editor.getYOffset();
+		// double x1 = arg0.getX()/editor.getScale() - editor.getXOffset();
 
-		//System.out.println("real: " + x1 + " " + y1);
+		// System.out.println("real: " + x1 + " " + y1);
 
 		if (arg0.getButton() == MouseEvent.BUTTON2) {
 			drag = true;
@@ -57,6 +58,22 @@ public class EditorMouseListener implements MouseInputListener {
 		}
 		switch (editor.getPlaceState()) {
 		case 1:
+			if (EditorWindow.roomMode == 0) {
+				if (arg0.getButton() == MouseEvent.BUTTON1) {
+					placeRoom(arg0);
+					place = true;
+					remove = false;
+					if (Options.animation == false)
+						editor.repaint();
+				}
+				if (arg0.getButton() == MouseEvent.BUTTON3) {
+					removeRoom(arg0);
+					remove = true;
+					place = false;
+					if (Options.animation == false)
+						editor.repaint();
+				}
+			}
 			break;
 		case 2:
 			if (arg0.getButton() == MouseEvent.BUTTON1) {
@@ -95,12 +112,20 @@ public class EditorMouseListener implements MouseInputListener {
 				double y1 = arg0.getY() / editor.getScale() - editor.getYOffset();
 				double x1 = arg0.getX() / editor.getScale() - editor.getXOffset();
 
-				Room r = editor.selectRoom(x1, y1);
-				if (r != null)
-					r.OnMouseClick();
+				if (EditorWindow.roomMode == 1) {
+					editor.selectRoom(x1, y1);
+					return;
+				}
+				if (EditorWindow.roomMode == 0) {
+					if (arg0.getButton() == MouseEvent.BUTTON1) {
+						place = false;
+					}
+					if (arg0.getButton() == MouseEvent.BUTTON3) {
+						remove = false;
+					}
 
-				if (Options.animation == false)
-					editor.repaint();
+				}
+
 			}
 			break;
 		case 2:
@@ -134,6 +159,17 @@ public class EditorMouseListener implements MouseInputListener {
 		switch (editor.getPlaceState()) {
 		case 1:
 			// room
+			if (place) {
+				placeRoom(arg0);
+				if (Options.animation == false)
+					editor.repaint();
+			}
+			if (remove) {
+				removeRoom(arg0);
+				if (Options.animation == false)
+					editor.repaint();
+			}
+			break;
 		case 2:
 			// tile
 			if (place) {
@@ -172,5 +208,19 @@ public class EditorMouseListener implements MouseInputListener {
 		double x1 = arg0.getX() / editor.getScale() - editor.getXOffset();
 
 		editor.removeTile(x1, y1);
+	}
+
+	private void placeRoom(MouseEvent arg0) {
+		double y1 = arg0.getY() / editor.getScale() - editor.getYOffset();
+		double x1 = arg0.getX() / editor.getScale() - editor.getXOffset();
+
+		editor.addRoom(new Room(x1, y1));
+	}
+
+	private void removeRoom(MouseEvent arg0) {
+		double y1 = arg0.getY() / editor.getScale() - editor.getYOffset();
+		double x1 = arg0.getX() / editor.getScale() - editor.getXOffset();
+
+		editor.removeRoom(x1, y1);
 	}
 }

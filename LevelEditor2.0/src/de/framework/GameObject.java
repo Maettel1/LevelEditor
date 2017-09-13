@@ -25,14 +25,13 @@ public abstract class GameObject implements Serializable {
 		return true;
 	}
 
-	public GameObject collision(double x, double y, Class<?> obj, ArrayList<GameObject> list) {
+	public GameObject collision(double x, double y, Class<?> _class, ArrayList<GameObject> list, GameObject obj) {
 
 		@SuppressWarnings("unchecked")
 		ArrayList<GameObject> listCopy = (ArrayList<GameObject>) list.clone();
 
 		for (GameObject go : listCopy) {
-
-			if (go.getClass() == obj || go.getClass().getSuperclass() == obj) {
+			if ((go.getClass() == _class || go.getClass().getSuperclass() == _class) && go != obj) {
 				Polygon tempPoly = new Polygon(poly.xpoints, poly.ypoints, poly.npoints);
 				tempPoly.translate((int) x - this.x, (int) y - this.y);
 				Area tempArea = new Area(tempPoly);

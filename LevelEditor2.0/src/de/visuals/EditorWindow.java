@@ -10,6 +10,7 @@ import java.text.NumberFormat;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -31,6 +32,7 @@ public class EditorWindow extends JFrame {
 	
 	public static EditorView editor;
 	public static TileSelector tileSelector;
+	public static int roomMode = 0;
 
 	public EditorWindow(int width, int height) {
 		
@@ -40,8 +42,8 @@ public class EditorWindow extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		try {
-			//UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			UIManager.setLookAndFeel("com.jtattoo.plaf.noire.NoireLookAndFeel");
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			//UIManager.setLookAndFeel("com.jtattoo.plaf.noire.NoireLookAndFeel");
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
 				| UnsupportedLookAndFeelException e) {
 			// TODO Auto-generated catch block
@@ -156,11 +158,31 @@ public class EditorWindow extends JFrame {
 		objectButton.setFocusable(false);
 
 		roomButton.setSelected(true);
+		
+		JComboBox<String> roomModeList = new JComboBox<String>();
+		roomModeList.addItem(new String("Place Mode"));
+		roomModeList.addItem(new String("Edit Mode"));
+		roomModeList.setSelectedIndex(roomMode);
+		roomModeList.setFocusable(false);
+		roomModeList.addActionListener(new ActionListener() {
 
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				roomMode = ((JComboBox<?>) arg0.getSource()).getSelectedIndex();
+				editor.unselectRoom();
+			}
+			
+		});
+	
+		
+		
 		roomButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				component.setPlaceState(1);
+				tb.add(roomModeList);
+				tb.revalidate();
+				tb.repaint();
 			}
 		});
 		tileButton.addActionListener(new ActionListener() {
@@ -169,6 +191,9 @@ public class EditorWindow extends JFrame {
 				component.setPlaceState(2);
 				component.unselectRoom();
 				component.repaint();
+				tb.remove(roomModeList);
+				tb.revalidate();
+				tb.repaint();
 			}
 		});
 		objectButton.addActionListener(new ActionListener() {
@@ -177,9 +202,13 @@ public class EditorWindow extends JFrame {
 				component.setPlaceState(3);
 				component.unselectRoom();
 				component.repaint();
+				tb.remove(roomModeList);
+				tb.revalidate();
+				tb.repaint();
 			}
 		});
 
+	
 		bg.add(roomButton);
 		bg.add(tileButton);
 		bg.add(objectButton);
@@ -189,6 +218,8 @@ public class EditorWindow extends JFrame {
 		tb.add(objectButton);
 
 		tb.addSeparator();
+		
+		tb.add(roomModeList);
 
 		add(tb, BorderLayout.PAGE_START);
 	}
